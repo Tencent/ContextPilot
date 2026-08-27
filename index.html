@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="ContextPilot brings planning, structured memory, retrieval, and soft context offloading to long-context agents." />
+    <meta name="theme-color" content="#f4f2eb" />
+    <meta property="og:title" content="ContextPilot — Keep the evidence. Lose the clutter." />
+    <meta property="og:description" content="An interactive look at context management for long-horizon agents." />
+    <title>ContextPilot — Long-context agents, under control</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2310202e'/%3E%3Cpath d='M17 33h30M32 18v30' stroke='%23f4f2eb' stroke-width='5' stroke-linecap='round'/%3E%3Ccircle cx='32' cy='33' r='9' fill='%23ff725e' stroke='%2310202e' stroke-width='4'/%3E%3C/svg%3E" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="ContextPilot home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 44 44"><path d="M7 22h30M22 7v30" /><circle cx="22" cy="22" r="7" /></svg>
+        </span>
+        <span>ContextPilot</span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="#how-it-works">How it works</a>
+        <a href="#demo">Live trace</a>
+        <a href="#training">Training</a>
+        <a href="#evaluate">Evaluate</a>
+      </nav>
+      <a class="button button-small button-dark" href="https://github.com/pzs19/ContextPilot" target="_blank" rel="noreferrer">
+        GitHub
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7 5 5 5-5 5" /></svg>
+      </a>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top">
+        <div class="hero-copy">
+          <p class="eyebrow"><span></span> Context management for long-horizon agents</p>
+          <h1>Keep the evidence.<br /><em>Lose the clutter.</em></h1>
+          <p class="hero-lede">
+            ContextPilot gives language models a disciplined way to plan, retrieve,
+            remember, and offload—so they can navigate long documents without letting
+            the working context drift out of control.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#demo">
+              Explore a live trace
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h12m-5-5 5 5-5 5" /></svg>
+            </a>
+            <a class="text-link" href="https://huggingface.co/collections/panzs19/contextpilot" target="_blank" rel="noreferrer">Models on Hugging Face <span aria-hidden="true">↗</span></a>
+          </div>
+          <ul class="hero-proof" aria-label="ContextPilot capabilities">
+            <li><span class="proof-dot blue"></span>Structured memory</li>
+            <li><span class="proof-dot orange"></span>Targeted retrieval</li>
+            <li><span class="proof-dot violet"></span>Soft offloading</li>
+          </ul>
+        </div>
+
+        <div class="hero-console" aria-label="Illustration of a managed context window">
+          <div class="console-topbar">
+            <div class="window-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+            <span>context / active</span>
+            <span class="console-live"><i></i> managed</span>
+          </div>
+          <div class="console-body">
+            <div class="context-heading">
+              <div><span class="mini-label">Working context</span><strong>Signal, not sediment.</strong></div>
+              <span class="context-count">14.2k <small>tokens</small></span>
+            </div>
+            <div class="context-stack" aria-hidden="true">
+              <div class="context-row row-query"><span>01</span><div><small>USER QUERY</small><b>Resolve the final decision…</b></div><i class="status-pin">pinned</i></div>
+              <div class="context-row row-plan offloaded"><span>02</span><div><small>PLAN</small><b>Map entities and chronology</b></div><i>offloaded</i></div>
+              <div class="context-row row-evidence"><span>03</span><div><small>EVIDENCE · CHUNK 128</small><b>Board approval recorded on…</b></div><i class="status-keep">keep</i></div>
+              <div class="context-row row-search offloaded"><span>04</span><div><small>SEARCH RESULTS</small><b>12 ranked passages</b></div><i>offloaded</i></div>
+              <div class="context-row row-memory"><span>05</span><div><small>MEMORY</small><b>Final decision + source saved</b></div><i class="status-memory">stored</i></div>
+            </div>
+            <div class="context-meter">
+              <div class="meter-label"><span>Active context</span><span>compact</span></div>
+              <div class="meter-track"><span></span></div>
+            </div>
+          </div>
+          <div class="orbit orbit-one" aria-hidden="true">plan</div>
+          <div class="orbit orbit-two" aria-hidden="true">search</div>
+          <div class="orbit orbit-three" aria-hidden="true">memory</div>
+        </div>
+      </section>
+
+      <section class="marquee" aria-label="ContextPilot workflow">
+        <div><span>ANALYZE</span><i>✦</i><span>PLAN</span><i>✦</i><span>SEARCH</span><i>✦</i><span>READ</span><i>✦</i><span>REMEMBER</span><i>✦</i><span>OFFLOAD</span><i>✦</i><span>ANSWER</span></div>
+      </section>
+
+      <section class="section how-section" id="how-it-works">
+        <div class="section-heading split-heading">
+          <div><p class="eyebrow"><span></span> A context control plane</p><h2>Four moves.<br />One compact mind.</h2></div>
+          <p>ContextPilot turns context management into explicit, inspectable actions. The model can gather evidence without carrying every intermediate result all the way to the answer.</p>
+        </div>
+        <div class="capability-grid">
+          <article class="capability-card blue-card">
+            <div class="card-index">01</div>
+            <div class="capability-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M14 9h20v30H14zM19 17h10M19 24h10M19 31h6" /><path d="m28 6 3 6-7-2z" /></svg></div>
+            <h3>Planning</h3><p>Form a search strategy, revise it after new evidence, and keep the next action deliberate.</p><code>plan · analyzeText</code>
+          </article>
+          <article class="capability-card orange-card">
+            <div class="card-index">02</div>
+            <div class="capability-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="21" cy="21" r="11" /><path d="m29 29 10 10M15 18h12M15 23h8" /></svg></div>
+            <h3>Retrieval</h3><p>Index once, search precisely, then open only the chunks needed to verify the answer.</p><code>searchEngine · readChunk</code>
+          </article>
+          <article class="capability-card green-card">
+            <div class="card-index">03</div>
+            <div class="capability-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><ellipse cx="24" cy="13" rx="13" ry="6" /><path d="M11 13v11c0 3 6 6 13 6s13-3 13-6V13M11 24v11c0 3 6 6 13 6s13-3 13-6V24" /></svg></div>
+            <h3>Memory</h3><p>Save durable facts with their relationships and retrieve them when final reasoning needs them.</p><code>memorize · updateMemory</code>
+          </article>
+          <article class="capability-card violet-card">
+            <div class="card-index">04</div>
+            <div class="capability-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M10 13h28M15 13l2 27h14l2-27M20 9h8M20 20v13M28 20v13" /></svg></div>
+            <h3>Offloading</h3><p>Delete noise, truncate bulky observations, or compress useful spans into a smaller working set.</p><code>delete · truncate · compress</code>
+          </article>
+        </div>
+      </section>
+
+      <section class="section demo-section" id="demo">
+        <div class="section-heading demo-heading">
+          <div><p class="eyebrow light"><span></span> Interactive execution trace</p><h2>Take the controls.</h2></div>
+          <p>Step through an illustrative local trace. No model endpoint, document upload, or API key is used in this browser demo.</p>
+        </div>
+        <div class="scenario-picker" role="group" aria-label="Choose a demo scenario">
+          <button class="scenario active" data-scenario="chronology" type="button"><span>01</span><b>Resolve a changing decision</b><small>Long document QA</small></button>
+          <button class="scenario" data-scenario="memory" type="button"><span>02</span><b>Recall an old commitment</b><small>LongMemEval-style</small></button>
+          <button class="scenario" data-scenario="research" type="button"><span>03</span><b>Reconcile web evidence</b><small>Deep search</small></button>
+        </div>
+        <div class="demo-shell">
+          <div class="demo-toolbar">
+            <div class="demo-title"><span class="demo-pulse"></span><div><small>ILLUSTRATIVE RUN</small><strong id="run-title">Chronology audit</strong></div></div>
+            <div class="demo-controls">
+              <button id="reset-demo" class="icon-button" type="button" aria-label="Reset demo" title="Reset demo"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16 7a7 7 0 1 0 .2 5M16 3v4h-4" /></svg></button>
+              <button id="auto-demo" class="button button-demo" type="button"><svg class="play-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="m7 5 8 5-8 5z" /></svg><span>Auto play</span></button>
+            </div>
+          </div>
+          <div class="demo-layout">
+            <aside class="step-rail" aria-label="Trace steps"><div class="step-progress"><span id="step-progress"></span></div><div id="step-list"></div></aside>
+            <div class="trace-stage">
+              <div class="trace-query"><span>USER QUERY</span><p id="scenario-query"></p></div>
+              <div class="trace-context-head"><span>Active messages</span><span id="active-message-count">1 in context</span></div>
+              <div class="message-stream" id="message-stream" aria-live="polite"></div>
+            </div>
+            <aside class="trace-inspector">
+              <div class="inspector-block">
+                <span class="inspector-label">Current action</span>
+                <div class="current-tool"><i id="tool-number">01</i><code id="current-tool">analyzeText</code></div>
+                <h3 id="step-title">Map the document</h3><p id="step-description"></p>
+              </div>
+              <div class="inspector-block metrics-block">
+                <span class="inspector-label">Working state</span>
+                <div class="metric-row"><span>Active context</span><b id="context-value">24.8k</b></div>
+                <div class="mini-meter"><span id="context-meter"></span></div>
+                <div class="metric-pair"><div><span>Memories</span><b id="memory-value">0</b></div><div><span>Offloaded</span><b id="offload-value">0</b></div></div>
+              </div>
+              <div class="inspector-block event-block"><span class="inspector-label">Event</span><code id="event-log"></code></div>
+              <div class="step-navigation">
+                <button id="previous-step" class="icon-button" type="button" aria-label="Previous step"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m12 5-5 5 5 5" /></svg></button>
+                <span id="step-counter">1 / 7</span>
+                <button id="next-step" class="icon-button next-button" type="button" aria-label="Next step"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m8 5 5 5-5 5" /></svg></button>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section class="section training-section" id="training">
+        <div class="section-heading split-heading">
+          <div><p class="eyebrow"><span></span> Trained where choices matter</p><h2>Explore the edits.<br />Credit the snapshots.</h2></div>
+          <p>The RL pipeline focuses exploration on context-editing decisions and uses downstream outcomes to train the intermediate states that produced them.</p>
+        </div>
+        <div class="training-visuals">
+          <article class="training-card rollout-card">
+            <div class="training-card-copy"><span>01 · Context-aware partial rollout</span><h3>Branch at high-impact actions.</h3><p>Explore alternatives around sensitive context edits instead of branching uniformly across the trajectory.</p></div>
+            <div class="branch-diagram" aria-label="A rollout branching from one high-impact action">
+              <div class="trunk"><i></i><i class="impact"></i><i></i><i></i></div><div class="branch branch-a"><i></i><i></i><i></i></div><div class="branch branch-b"><i></i><i></i></div><div class="branch branch-c"><i></i><i></i><i></i></div><span>high-impact edit</span>
+            </div>
+          </article>
+          <article class="training-card credit-card">
+            <div class="training-card-copy"><span>02 · Fine-grained credit assignment</span><h3>Learn from downstream outcomes.</h3><p>Aggregate rewards back to trajectory snapshots, so intermediate context states receive a useful learning signal.</p></div>
+            <div class="credit-diagram" aria-label="Rewards flowing back to an earlier trajectory snapshot">
+              <div class="snapshot"><i></i><i class="selected"></i><i></i><i></i></div><div class="reward-lines"><span></span><span></span><span></span></div><div class="outcomes"><b>✓</b><b>×</b><b>×</b></div><small>reward aggregation</small>
+            </div>
+          </article>
+        </div>
+        <a class="figure-link" href="https://raw.githubusercontent.com/pzs19/ContextPilot/main/assets/contextpilot_overview.png" target="_blank" rel="noreferrer"><span>Open the complete method overview</span><span aria-hidden="true">↗</span></a>
+      </section>
+
+      <section class="section evaluate-section" id="evaluate">
+        <div class="evaluation-panel">
+          <div class="evaluation-copy">
+            <p class="eyebrow light"><span></span> Evaluation suite</p><h2>Four ways to go long.</h2>
+            <p>Run the full pipeline across long-book comprehension, narrative QA, conversational memory, and deep web search—or launch one task at a time.</p>
+            <div class="benchmark-list">
+              <a href="https://huggingface.co/datasets/lindsay21/InfiniteBench" target="_blank" rel="noreferrer"><span>01</span><b>InfBench</b><small>Long-book choice</small></a>
+              <a href="https://huggingface.co/datasets/NovelQA/NovelQA" target="_blank" rel="noreferrer"><span>02</span><b>NovelQA</b><small>Narrative reasoning</small></a>
+              <div><span>03</span><b>LongMemEval</b><small>Conversational memory</small></div>
+              <div><span>04</span><b>BrowseComp+</b><small>Deep search</small></div>
+            </div>
+          </div>
+          <div class="quickstart-card">
+            <div class="code-topbar"><span><i></i><i></i><i></i></span><small>QUICKSTART</small><button id="copy-command" type="button">Copy</button></div>
+            <pre><code id="quickstart-code"><span class="code-comment"># Install the inference environment</span>
+bash infer/scripts/setup_environment.sh
+source infer/.venv/bin/activate
+
+<span class="code-comment"># Evaluate all four tasks</span>
+bash infer/scripts/run_full_pipeline.sh \
+  /path/to/checkpoint my-run</code></pre>
+            <div class="code-footer"><span><i></i> Outputs</span><code>infer/results/&lt;task&gt;/&lt;run&gt;/</code></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section closing-section">
+        <div class="closing-mark" aria-hidden="true"><svg viewBox="0 0 160 160"><circle cx="80" cy="80" r="60" /><path d="M21 80h118M80 21v118" /><circle cx="80" cy="80" r="18" /></svg></div>
+        <p class="eyebrow"><span></span> Open source</p><h2>Give your context<br />a better pilot.</h2>
+        <div class="closing-actions"><a class="button button-primary" href="https://github.com/pzs19/ContextPilot" target="_blank" rel="noreferrer">View the repository <span aria-hidden="true">↗</span></a><a class="text-link" href="https://github.com/pzs19/ContextPilot#setup" target="_blank" rel="noreferrer">Read the setup guide <span aria-hidden="true">↗</span></a></div>
+      </section>
+    </main>
+
+    <footer>
+      <a class="brand footer-brand" href="#top"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 44 44"><path d="M7 22h30M22 7v30" /><circle cx="22" cy="22" r="7" /></svg></span><span>ContextPilot</span></a>
+      <p>Planning · retrieval · memory · soft context offloading</p><div><span>Apache-2.0</span><span>Built for long contexts</span></div>
+    </footer>
+    <script src="app.js"></script>
+  </body>
+</html>
