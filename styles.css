@@ -50,7 +50,7 @@ a { color: inherit; text-decoration: none; }
   font-size: 17px; font-weight: 750; letter-spacing: -0.03em;
 }
 .brand-mark {
-  display: grid; width: 44px; height: 44px; place-items: center;
+  display: grid; width: 34px; height: 34px; place-items: center;
 }
 .brand-mark img {
   display: block; width: 100%; height: 100%; object-fit: contain;
@@ -548,7 +548,7 @@ footer > div { display: flex; justify-content: flex-end; gap: 18px; }
 @media (max-width: 660px) {
   .site-header { height: 66px; padding: 0 18px; }
   .brand { font-size: 15px; }
-  .brand-mark { width: 38px; height: 38px; }
+  .brand-mark { width: 30px; height: 30px; }
   .button-small { min-height: 34px; padding: 0 13px; }
   .hero { min-height: auto; padding: 66px 20px 80px; }
   h1 { font-size: clamp(54px, 16vw, 76px); }
