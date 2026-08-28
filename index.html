@@ -39,7 +39,7 @@
           <p class="eyebrow"><span></span> Context management for long-horizon agents</p>
           <h1>Keep the evidence.<br /><em>Lose the clutter.</em></h1>
           <p class="hero-lede">
-            ContextPilot gives language models a disciplined way to plan, retrieve,
+            ContextPilot gives LLM agents a disciplined way to plan, retrieve,
             remember, and offload—so they can navigate long documents without letting
             the working context drift out of control.
           </p>
@@ -75,14 +75,15 @@
           <div class="console-body">
             <div class="context-heading">
               <div><span class="mini-label">Working context</span><strong>Signal, not sediment.</strong></div>
-              <span class="context-count">14.2k <small>tokens</small></span>
+              <span class="context-count">5.6k <small>tokens</small></span>
             </div>
             <div class="context-stack" aria-hidden="true">
               <div class="context-row row-query"><span>01</span><div><small>USER QUERY</small><b>Resolve the final decision…</b></div><i class="status-pin">pinned</i></div>
-              <div class="context-row row-plan offloaded"><span>02</span><div><small>PLAN</small><b>Map entities and chronology</b></div><i>offloaded</i></div>
-              <div class="context-row row-evidence"><span>03</span><div><small>EVIDENCE · CHUNK 128</small><b>Board approval recorded on…</b></div><i class="status-keep">keep</i></div>
-              <div class="context-row row-search offloaded"><span>04</span><div><small>SEARCH RESULTS</small><b>12 ranked passages</b></div><i>offloaded</i></div>
-              <div class="context-row row-memory"><span>05</span><div><small>MEMORY</small><b>Final decision + source saved</b></div><i class="status-memory">stored</i></div>
+              <div class="context-row row-plan"><span>02</span><div><small>PLAN</small><b>Map entities and chronology</b></div><i class="status-plan">planned</i></div>
+              <div class="context-row row-retrieval"><span>03</span><div><small>SEARCH / READ</small><b>searchEngine · readChunk</b></div><i class="status-retrieval">retrieved</i></div>
+              <div class="context-row row-memory"><span>04</span><div><small>NOTE / MEMORIZE</small><b>note · memorize</b></div><i class="status-memory">stored</i></div>
+              <div class="context-row row-offload"><span>05</span><div><small>DELETE / COMPRESS</small><b>deleteContext · compressContext</b></div><i class="status-offload">−8.6k</i></div>
+              <div class="context-row row-next"><span>…</span><div><small>NEXT ACTION</small><b>Continue from compact context</b></div><i>ready</i></div>
             </div>
             <div class="context-meter">
               <div class="meter-label"><span>Active context</span><span>compact</span></div>
@@ -91,7 +92,7 @@
           </div>
           <div class="orbit orbit-one" aria-hidden="true">plan</div>
           <div class="orbit orbit-two" aria-hidden="true">search</div>
-          <div class="orbit orbit-three" aria-hidden="true">memory</div>
+          <div class="orbit orbit-three" aria-hidden="true">offload</div>
         </div>
       </section>
 
