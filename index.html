@@ -141,25 +141,25 @@
             <aside class="step-rail" aria-label="Trace steps"><div class="step-progress"><span id="step-progress"></span></div><div id="step-list"></div></aside>
             <div class="trace-stage">
               <div class="trace-query"><span>USER QUERY</span><p id="scenario-query"></p></div>
-              <div class="trace-context-head"><span>Active messages</span><span id="active-message-count">1 in context</span></div>
+              <div class="trace-context-head"><span>Active messages</span><span id="active-message-count">2 in context</span></div>
               <div class="message-stream" id="message-stream" aria-live="polite"></div>
             </div>
             <aside class="trace-inspector">
               <div class="inspector-block">
                 <span class="inspector-label">Current action</span>
-                <div class="current-tool"><i id="tool-number">01</i><code id="current-tool">analyzeText</code></div>
-                <h3 id="step-title">Map the document</h3><p id="step-description"></p>
+                <div class="current-tool"><i id="tool-number">01</i><code id="current-tool">searchEngine</code></div>
+                <h3 id="step-title">Start with a narrow search</h3><p id="step-description"></p>
               </div>
               <div class="inspector-block metrics-block">
                 <span class="inspector-label">Working state</span>
-                <div class="metric-row"><span>Active context</span><b id="context-value">24.8k</b></div>
+                <div class="metric-row"><span>Active context</span><b id="context-value">1.8k</b></div>
                 <div class="mini-meter"><span id="context-meter"></span></div>
                 <div class="metric-pair"><div><span>Memories</span><b id="memory-value">0</b></div><div><span>Offloaded</span><b id="offload-value">0</b></div></div>
               </div>
               <div class="inspector-block event-block"><span class="inspector-label">Event</span><code id="event-log"></code></div>
               <div class="step-navigation">
                 <button id="previous-step" class="icon-button" type="button" aria-label="Previous step"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m12 5-5 5 5 5" /></svg></button>
-                <span id="step-counter">1 / 7</span>
+                <span id="step-counter">1 / 13</span>
                 <button id="next-step" class="icon-button next-button" type="button" aria-label="Next step"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m8 5 5 5-5 5" /></svg></button>
               </div>
             </aside>
@@ -169,7 +169,7 @@
 
       <section class="section training-section" id="training">
         <div class="section-heading split-heading">
-          <div><p class="eyebrow"><span></span> Trained where choices matter</p><h2>Explore key actions.<br />Credit each step.</h2></div>
+          <div><p class="eyebrow"><span></span> Trained where choices matter</p><h2>Explore key actions.<br />Assign fine-grained credit.</h2></div>
           <p>The RL pipeline focuses exploration on context-editing decisions and uses downstream outcomes to train the intermediate states that produced them.</p>
         </div>
         <div class="training-visuals">
@@ -186,7 +186,6 @@
             </a>
           </article>
         </div>
-        <a class="figure-link" href="https://raw.githubusercontent.com/pzs19/ContextPilot/main/assets/contextpilot_overview.png" target="_blank" rel="noreferrer"><span>Open the complete method overview</span><span aria-hidden="true">↗</span></a>
       </section>
 
       <section class="section evaluate-section" id="evaluate">

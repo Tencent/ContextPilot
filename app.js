@@ -2,33 +2,39 @@ const scenarios = {
   chronology: {
     runTitle: "Chronology audit",
     query: "The team changed course several times. Where was Project Aurora finally approved, and on what date?",
-    collection: "160-page board archive · 428 indexed chunks",
     search: '"Aurora" + approved + final + resolution',
     result: "12 ranked passages across minutes, memos, and appendices",
     evidence: "Chunk 128: the final resolution records approval in Reykjavík on 18 May.",
     contrast: "Chunk 61: an earlier Oslo proposal was deferred and later superseded.",
+    workingNote: "Likely final approval: Reykjavík, 18 May. Verify that the Oslo proposal was superseded.",
+    followupSearch: '"Aurora" + Reykjavík + Oslo + superseded',
+    finalSearch: '"Aurora" + 18 May + final resolution',
     memory: "Aurora → final approval: Reykjavík, 18 May; Oslo was only a superseded proposal.",
     answer: "Project Aurora was finally approved in Reykjavík on 18 May.",
   },
   memory: {
     runTitle: "Commitment recall",
     query: "What accommodation did Maya promise to book for the December conference?",
-    collection: "Multi-session conversation · 312 indexed chunks",
     search: "Maya + December + conference + book / reserve",
     result: "9 candidate passages across seven conversation sessions",
     evidence: "Chunk 204: Maya confirms she will book the quiet hotel beside the venue.",
     contrast: "Chunk 77: a downtown apartment was discussed, but rejected because of noise.",
+    workingNote: "Likely commitment: quiet hotel beside the venue. Check whether the apartment remained active.",
+    followupSearch: "Maya + quiet hotel + apartment + rejected",
+    finalSearch: "Maya + December conference + confirmed booking",
     memory: "Maya’s active commitment → quiet hotel beside the venue; apartment option rejected.",
     answer: "Maya promised to book the quiet hotel beside the conference venue.",
   },
   research: {
     runTitle: "Evidence reconciliation",
     query: "Which launch date did the project ultimately announce after the schedule changed?",
-    collection: "Research bundle · 286 indexed passages",
     search: "launch date + rescheduled + announcement + ultimately",
     result: "14 results from release notes, interviews, and archived announcements",
     evidence: "Chunk 241: the final announcement sets the public launch for 7 October.",
     contrast: "Chunk 96: the original 12 September target was withdrawn after testing delays.",
+    workingNote: "Likely final launch: 7 October. Verify that the 12 September date was withdrawn.",
+    followupSearch: '"7 October" + "12 September" + withdrawn',
+    finalSearch: '"7 October" + final launch announcement',
     memory: "Final public launch → 7 October; 12 September was the withdrawn target.",
     answer: "The project ultimately announced 7 October as its public launch date.",
   },
@@ -36,74 +42,134 @@ const scenarios = {
 
 const steps = [
   {
-    tool: "analyzeText",
-    label: "Analyze",
-    title: "Map the document",
-    description: "Inspect document structure and identify the evidence shape the answer will require.",
-    context: 24.8,
+    tool: "searchEngine",
+    label: "Search",
+    title: "Start with a narrow search",
+    description: "Retrieve a small candidate set while the working context still contains little more than the query.",
+    context: 1.8,
     memories: 0,
     offloaded: 0,
-    event: "document_map.ready · sections identified",
+    event: "search.pass_1 · initial candidates returned",
   },
   {
-    tool: "buildIndex",
-    label: "Index",
-    title: "Make it searchable",
-    description: "Build a retrieval index over the source while keeping the full document outside the working context.",
-    context: 25.3,
+    tool: "readChunk",
+    label: "Read",
+    title: "Open the strongest chunk",
+    description: "Read one high-ranking passage instead of loading the full source into the prompt.",
+    context: 5.6,
     memories: 0,
     offloaded: 0,
-    event: "index.ready · lexical retrieval online",
+    event: "chunk.read · first evidence added",
+  },
+  {
+    tool: "note",
+    label: "Note",
+    title: "Capture the working lead",
+    description: "Save the promising finding and the uncertainty that the next retrieval pass must resolve.",
+    context: 6.1,
+    memories: 0,
+    offloaded: 0,
+    event: "note.write · provisional lead saved",
   },
   {
     tool: "searchEngine",
     label: "Search",
-    title: "Retrieve candidates",
-    description: "Search for the subject together with chronology and decision terms—not just the first keyword match.",
-    context: 31.8,
+    title: "Search from the new clue",
+    description: "Use the first passage to form a sharper query for conflicts, revisions, or superseding evidence.",
+    context: 9.7,
     memories: 0,
     offloaded: 0,
-    event: "search.complete · ranked candidates returned",
+    event: "search.pass_2 · contrast candidates returned",
   },
   {
     tool: "readMultiChunks",
-    label: "Read",
-    title: "Verify the evidence",
-    description: "Open the strongest passages and resolve whether an earlier statement was later superseded.",
-    context: 37.2,
+    label: "Read many",
+    title: "Compare the competing evidence",
+    description: "Read several targeted chunks together and determine which statement remained valid at the end.",
+    context: 19.4,
     memories: 0,
     offloaded: 0,
-    event: "evidence.verified · temporal conflict resolved",
+    event: "chunks.read · temporal conflict resolved",
   },
   {
     tool: "memorize",
-    label: "Remember",
-    title: "Save the durable fact",
-    description: "Write the answer-bearing relationship and its temporal qualifier into structured memory.",
-    context: 38.1,
+    label: "Memorize",
+    title: "Store the durable relationship",
+    description: "Persist the answer-bearing fact and its qualifier before removing bulky retrieval turns.",
+    context: 27.8,
     memories: 1,
     offloaded: 0,
     event: "memory.write · stable key created",
   },
   {
-    tool: "compressContext",
-    label: "Offload",
-    title: "Clear the scaffolding",
-    description: "Compress useful evidence and remove bulky search and planning messages that no longer need to stay active.",
-    context: 13.6,
+    tool: "deleteContext",
+    label: "Delete",
+    title: "Remove spent retrieval turns",
+    description: "Delete search and reading messages whose useful content is now safely stored outside the active prompt.",
+    context: 8.9,
     memories: 1,
-    offloaded: 4,
-    event: "context.compact · 4 messages offloaded",
+    offloaded: 5,
+    event: "context.delete · 5 messages offloaded",
+  },
+  {
+    tool: "searchEngine",
+    label: "Search",
+    title: "Search the remaining gap",
+    description: "Run one focused confirmation query from the compacted working state.",
+    context: 11.6,
+    memories: 1,
+    offloaded: 5,
+    event: "search.pass_3 · confirmation candidates returned",
+  },
+  {
+    tool: "readChunk",
+    label: "Read",
+    title: "Read the confirming chunk",
+    description: "Open only the passage needed to close the final evidence gap.",
+    context: 16.8,
+    memories: 1,
+    offloaded: 5,
+    event: "chunk.read · final claim confirmed",
+  },
+  {
+    tool: "note",
+    label: "Note",
+    title: "Update the final note",
+    description: "Record the confirmed answer in a compact form that can survive another context reduction.",
+    context: 17.3,
+    memories: 1,
+    offloaded: 5,
+    event: "note.write · final evidence summarized",
+  },
+  {
+    tool: "compressContext",
+    label: "Compress",
+    title: "Compress the remaining evidence",
+    description: "Replace the last search and reading turns with a short answer-bearing summary.",
+    context: 6.2,
+    memories: 1,
+    offloaded: 8,
+    event: "context.compress · 3 more messages offloaded",
+  },
+  {
+    tool: "readNote",
+    label: "Recall",
+    title: "Read back the saved note",
+    description: "Review the durable note from the compact context before composing the final response.",
+    context: 6.9,
+    memories: 1,
+    offloaded: 8,
+    event: "note.read · answer state restored",
   },
   {
     tool: "finish",
     label: "Answer",
-    title: "Answer from evidence",
-    description: "Review the saved fact and return a concise answer grounded in the verified final passage.",
-    context: 14.2,
+    title: "Finish from verified evidence",
+    description: "Return a concise answer grounded in the retrieved chunks and the reviewed note.",
+    context: 7.4,
     memories: 1,
-    offloaded: 4,
-    event: "run.complete · evidence retained",
+    offloaded: 8,
+    event: "run.complete · answer returned",
   },
 ];
 
@@ -149,26 +215,30 @@ function message(type, label, text, state = "active") {
 
 function messagesFor(stepIndex, scenario) {
   const messages = [message("query", "ORIGINAL QUERY", scenario.query, "pinned")];
-  if (stepIndex >= 0) {
-    messages.push(message("tool", "DOCUMENT MAP", scenario.collection, stepIndex >= 5 ? "offloaded" : "active"));
+  if (stepIndex < 6) {
+    if (stepIndex >= 0) messages.push(message("tool", "SEARCH · PASS 1", `${scenario.search} → ${scenario.result}`));
+    if (stepIndex >= 1) messages.push(message("evidence", "CHUNK · PRIMARY LEAD", scenario.evidence));
+    if (stepIndex >= 2) messages.push(message("memory", "WORKING NOTE", scenario.workingNote, "stored"));
+    if (stepIndex >= 3) messages.push(message("tool", "SEARCH · PASS 2", scenario.followupSearch));
+    if (stepIndex >= 4) messages.push(message("evidence", "MULTI-CHUNK CHECK", `${scenario.evidence} ${scenario.contrast}`));
+    if (stepIndex >= 5) messages.push(message("memory", "STRUCTURED MEMORY", scenario.memory, "stored"));
+    return messages;
   }
-  if (stepIndex >= 1) {
-    messages.push(message("tool", "INDEX", "Searchable chunks remain external until requested.", stepIndex >= 5 ? "offloaded" : "active"));
+
+  messages.push(message("memory", "STRUCTURED MEMORY", scenario.memory, "stored"));
+  messages.push(message("cleanup", "CONTEXT DELETE", "The first two retrieval passes were removed after their durable facts were saved.", "complete"));
+
+  if (stepIndex < 10) {
+    if (stepIndex >= 7) messages.push(message("tool", "SEARCH · PASS 3", `${scenario.finalSearch} → 3 targeted confirmation passages`));
+    if (stepIndex >= 8) messages.push(message("evidence", "CONFIRMING CHUNK", scenario.evidence));
+    if (stepIndex >= 9) messages.push(message("memory", "FINAL NOTE", scenario.memory, "stored"));
+  } else {
+    messages.push(message("memory", "FINAL NOTE", scenario.memory, "compressed"));
+    messages.push(message("cleanup", "CONTEXT COMPRESSION", "The confirmation search was compressed into the final note.", "complete"));
   }
-  if (stepIndex >= 2) {
-    messages.push(message("tool", "SEARCH", `${scenario.search} → ${scenario.result}`, stepIndex >= 5 ? "offloaded" : "active"));
-  }
-  if (stepIndex >= 3) {
-    messages.push(message("evidence", "VERIFIED EVIDENCE", scenario.evidence, stepIndex >= 5 ? "compressed" : "active"));
-    messages.push(message("evidence", "CONTRAST CHECK", scenario.contrast, stepIndex >= 5 ? "offloaded" : "active"));
-  }
-  if (stepIndex >= 4) {
-    messages.push(message("memory", "STRUCTURED MEMORY", scenario.memory, "stored"));
-  }
-  if (stepIndex >= 5) {
-    messages.push(message("cleanup", "CONTEXT UPDATE", "Search scaffolding offloaded; answer-bearing evidence retained."));
-  }
-  if (stepIndex >= 6) {
+
+  if (stepIndex >= 11) messages.push(message("memory", "READ NOTE", scenario.memory, "active"));
+  if (stepIndex >= 12) {
     messages.push(message("answer", "FINAL ANSWER", scenario.answer, "complete"));
   }
   return messages;
