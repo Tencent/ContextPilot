@@ -415,6 +415,8 @@ section[id] { scroll-margin-top: 76px; }
 .training-section > * {
   width: min(100%, 1712px); margin-right: auto; margin-left: auto;
 }
+.training-section .split-heading { grid-template-columns: 1.4fr 0.6fr; }
+.training-section .section-heading h2 { font-size: clamp(56px, 5.8vw, 84px); }
 .training-visuals {
   display: grid; grid-template-columns: 1fr 1fr;
   border-top: 1px solid var(--line); border-left: 1px solid var(--line);
@@ -537,6 +539,7 @@ footer > div { display: flex; justify-content: flex-end; gap: 18px; }
   .hero { grid-template-columns: 1fr; padding-top: 70px; }
   .hero-console { width: min(92%, 680px); margin-top: 30px; }
   .split-heading, .demo-heading, .evaluation-panel { grid-template-columns: 1fr; }
+  .training-section .split-heading { grid-template-columns: 1fr; }
   .split-heading, .demo-heading { gap: 30px; }
   .demo-layout { grid-template-columns: 140px 1fr; }
   .trace-inspector {

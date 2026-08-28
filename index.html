@@ -169,18 +169,18 @@
 
       <section class="section training-section" id="training">
         <div class="section-heading split-heading">
-          <div><p class="eyebrow"><span></span> Trained where choices matter</p><h2>Explore the edits.<br />Credit the snapshots.</h2></div>
+          <div><p class="eyebrow"><span></span> Trained where choices matter</p><h2>Explore key actions.<br />Credit each step.</h2></div>
           <p>The RL pipeline focuses exploration on context-editing decisions and uses downstream outcomes to train the intermediate states that produced them.</p>
         </div>
         <div class="training-visuals">
           <article class="training-card rollout-card">
-            <div class="training-card-copy"><span>01 · Context-aware partial rollout</span><h3>Branch at high-impact actions.</h3><p>Explore alternatives around sensitive context edits instead of branching uniformly across the trajectory.</p></div>
+            <div class="training-card-copy"><span>01 · Context-aware partial rollout</span><h3>Explore high-impact actions.</h3><p>Branch around pivotal context edits instead of exploring every action uniformly across the trajectory.</p></div>
             <a class="method-figure" href="assets/context-aware-partial-rollout.png" target="_blank" rel="noreferrer" aria-label="Open the context-aware partial rollout diagram at full resolution">
               <img src="assets/context-aware-partial-rollout.png" alt="Context-aware partial rollout branches trajectories at high-impact context-management actions." loading="lazy" />
             </a>
           </article>
           <article class="training-card credit-card">
-            <div class="training-card-copy"><span>02 · Fine-grained credit assignment</span><h3>Learn from downstream outcomes.</h3><p>Aggregate rewards back to trajectory snapshots, so intermediate context states receive a useful learning signal.</p></div>
+            <div class="training-card-copy"><span>02 · Fine-grained credit assignment</span><h3>Assign fine-grained credit.</h3><p>Propagate downstream rewards to the context snapshots that shaped each outcome along the trajectory.</p></div>
             <a class="method-figure" href="assets/fine-grained-credit-assignment.png" target="_blank" rel="noreferrer" aria-label="Open the fine-grained credit assignment diagram at full resolution">
               <img src="assets/fine-grained-credit-assignment.png" alt="Fine-grained credit assignment aggregates downstream trajectory rewards back to intermediate snapshots." loading="lazy" />
             </a>
