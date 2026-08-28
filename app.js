@@ -42,6 +42,26 @@ const scenarios = {
 
 const steps = [
   {
+    tool: "plan",
+    label: "Plan",
+    title: "Set the retrieval strategy",
+    description: "Turn the query into a compact sequence of retrieval, verification, and context-management decisions.",
+    context: 0.9,
+    memories: 0,
+    offloaded: 0,
+    event: "plan.ready · evidence strategy outlined",
+  },
+  {
+    tool: "analyzeText",
+    label: "Analyze",
+    title: "Map the source structure",
+    description: "Inspect the document layout and identify where answer-bearing evidence is most likely to appear.",
+    context: 1.3,
+    memories: 0,
+    offloaded: 0,
+    event: "document_map.ready · retrieval regions identified",
+  },
+  {
     tool: "searchEngine",
     label: "Search",
     title: "Start with a narrow search",
@@ -108,8 +128,8 @@ const steps = [
     description: "Delete search and reading messages whose useful content is now safely stored outside the active prompt.",
     context: 8.9,
     memories: 1,
-    offloaded: 5,
-    event: "context.delete · 5 messages offloaded",
+    offloaded: 7,
+    event: "context.delete · 7 messages offloaded",
   },
   {
     tool: "searchEngine",
@@ -118,7 +138,7 @@ const steps = [
     description: "Run one focused confirmation query from the compacted working state.",
     context: 11.6,
     memories: 1,
-    offloaded: 5,
+    offloaded: 7,
     event: "search.pass_3 · confirmation candidates returned",
   },
   {
@@ -128,7 +148,7 @@ const steps = [
     description: "Open only the passage needed to close the final evidence gap.",
     context: 16.8,
     memories: 1,
-    offloaded: 5,
+    offloaded: 7,
     event: "chunk.read · final claim confirmed",
   },
   {
@@ -138,7 +158,7 @@ const steps = [
     description: "Record the confirmed answer in a compact form that can survive another context reduction.",
     context: 17.3,
     memories: 1,
-    offloaded: 5,
+    offloaded: 7,
     event: "note.write · final evidence summarized",
   },
   {
@@ -148,7 +168,7 @@ const steps = [
     description: "Replace the last search and reading turns with a short answer-bearing summary.",
     context: 6.2,
     memories: 1,
-    offloaded: 8,
+    offloaded: 10,
     event: "context.compress · 3 more messages offloaded",
   },
   {
@@ -158,7 +178,7 @@ const steps = [
     description: "Review the durable note from the compact context before composing the final response.",
     context: 6.9,
     memories: 1,
-    offloaded: 8,
+    offloaded: 10,
     event: "note.read · answer state restored",
   },
   {
@@ -168,7 +188,7 @@ const steps = [
     description: "Return a concise answer grounded in the retrieved chunks and the reviewed note.",
     context: 7.4,
     memories: 1,
-    offloaded: 8,
+    offloaded: 10,
     event: "run.complete · answer returned",
   },
 ];
@@ -215,30 +235,32 @@ function message(type, label, text, state = "active") {
 
 function messagesFor(stepIndex, scenario) {
   const messages = [message("query", "ORIGINAL QUERY", scenario.query, "pinned")];
-  if (stepIndex < 6) {
-    if (stepIndex >= 0) messages.push(message("tool", "SEARCH · PASS 1", `${scenario.search} → ${scenario.result}`));
-    if (stepIndex >= 1) messages.push(message("evidence", "CHUNK · PRIMARY LEAD", scenario.evidence));
-    if (stepIndex >= 2) messages.push(message("memory", "WORKING NOTE", scenario.workingNote, "stored"));
-    if (stepIndex >= 3) messages.push(message("tool", "SEARCH · PASS 2", scenario.followupSearch));
-    if (stepIndex >= 4) messages.push(message("evidence", "MULTI-CHUNK CHECK", `${scenario.evidence} ${scenario.contrast}`));
-    if (stepIndex >= 5) messages.push(message("memory", "STRUCTURED MEMORY", scenario.memory, "stored"));
+  if (stepIndex < 8) {
+    if (stepIndex >= 0) messages.push(message("tool", "PLAN", "Retrieve narrowly, verify chronology, preserve durable facts, then prune spent context."));
+    if (stepIndex >= 1) messages.push(message("tool", "DOCUMENT MAP", "Source structure mapped; full text remains outside the active prompt."));
+    if (stepIndex >= 2) messages.push(message("tool", "SEARCH · PASS 1", `${scenario.search} → ${scenario.result}`));
+    if (stepIndex >= 3) messages.push(message("evidence", "CHUNK · PRIMARY LEAD", scenario.evidence));
+    if (stepIndex >= 4) messages.push(message("memory", "WORKING NOTE", scenario.workingNote, "stored"));
+    if (stepIndex >= 5) messages.push(message("tool", "SEARCH · PASS 2", scenario.followupSearch));
+    if (stepIndex >= 6) messages.push(message("evidence", "MULTI-CHUNK CHECK", `${scenario.evidence} ${scenario.contrast}`));
+    if (stepIndex >= 7) messages.push(message("memory", "STRUCTURED MEMORY", scenario.memory, "stored"));
     return messages;
   }
 
   messages.push(message("memory", "STRUCTURED MEMORY", scenario.memory, "stored"));
   messages.push(message("cleanup", "CONTEXT DELETE", "The first two retrieval passes were removed after their durable facts were saved.", "complete"));
 
-  if (stepIndex < 10) {
-    if (stepIndex >= 7) messages.push(message("tool", "SEARCH · PASS 3", `${scenario.finalSearch} → 3 targeted confirmation passages`));
-    if (stepIndex >= 8) messages.push(message("evidence", "CONFIRMING CHUNK", scenario.evidence));
-    if (stepIndex >= 9) messages.push(message("memory", "FINAL NOTE", scenario.memory, "stored"));
+  if (stepIndex < 12) {
+    if (stepIndex >= 9) messages.push(message("tool", "SEARCH · PASS 3", `${scenario.finalSearch} → 3 targeted confirmation passages`));
+    if (stepIndex >= 10) messages.push(message("evidence", "CONFIRMING CHUNK", scenario.evidence));
+    if (stepIndex >= 11) messages.push(message("memory", "FINAL NOTE", scenario.memory, "stored"));
   } else {
     messages.push(message("memory", "FINAL NOTE", scenario.memory, "compressed"));
     messages.push(message("cleanup", "CONTEXT COMPRESSION", "The confirmation search was compressed into the final note.", "complete"));
   }
 
-  if (stepIndex >= 11) messages.push(message("memory", "READ NOTE", scenario.memory, "active"));
-  if (stepIndex >= 12) {
+  if (stepIndex >= 13) messages.push(message("memory", "READ NOTE", scenario.memory, "active"));
+  if (stepIndex >= 14) {
     messages.push(message("answer", "FINAL ANSWER", scenario.answer, "complete"));
   }
   return messages;

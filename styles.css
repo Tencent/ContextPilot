@@ -319,7 +319,7 @@ section[id] { scroll-margin-top: 76px; }
 .step-progress span { display: block; width: 100%; height: 0; background: var(--coral); transition: height 350ms ease; }
 .trace-step {
   position: relative; z-index: 1; display: grid; grid-template-columns: 27px 1fr;
-  gap: 9px; align-items: center; width: 100%; height: 60px; padding: 0; border: 0;
+  gap: 9px; align-items: center; width: 100%; height: 56px; padding: 0; border: 0;
   color: rgba(255, 255, 255, 0.32); text-align: left; background: transparent; cursor: pointer;
 }
 .trace-step i {
