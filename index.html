@@ -9,7 +9,7 @@
     <meta property="og:description" content="An interactive look at context management for long-horizon agents." />
     <title>ContextPilot — Long-context agents, under control</title>
     <link rel="stylesheet" href="styles.css" />
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2310202e'/%3E%3Cpath d='M17 33h30M32 18v30' stroke='%23f4f2eb' stroke-width='5' stroke-linecap='round'/%3E%3Ccircle cx='32' cy='33' r='9' fill='%23ff725e' stroke='%2310202e' stroke-width='4'/%3E%3C/svg%3E" />
+    <link rel="icon" href="assets/contextpilot-pilot.png" />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -17,7 +17,7 @@
     <header class="site-header">
       <a class="brand" href="#top" aria-label="ContextPilot home">
         <span class="brand-mark" aria-hidden="true">
-          <svg viewBox="0 0 44 44"><path d="M7 22h30M22 7v30" /><circle cx="22" cy="22" r="7" /></svg>
+          <img src="assets/contextpilot-pilot.png" alt="" />
         </span>
         <span>ContextPilot</span>
       </a>
@@ -175,15 +175,15 @@
         <div class="training-visuals">
           <article class="training-card rollout-card">
             <div class="training-card-copy"><span>01 · Context-aware partial rollout</span><h3>Branch at high-impact actions.</h3><p>Explore alternatives around sensitive context edits instead of branching uniformly across the trajectory.</p></div>
-            <div class="branch-diagram" aria-label="A rollout branching from one high-impact action">
-              <div class="trunk"><i></i><i class="impact"></i><i></i><i></i></div><div class="branch branch-a"><i></i><i></i><i></i></div><div class="branch branch-b"><i></i><i></i></div><div class="branch branch-c"><i></i><i></i><i></i></div><span>high-impact edit</span>
-            </div>
+            <a class="method-figure" href="assets/context-aware-partial-rollout.png" target="_blank" rel="noreferrer" aria-label="Open the context-aware partial rollout diagram at full resolution">
+              <img src="assets/context-aware-partial-rollout.png" alt="Context-aware partial rollout branches trajectories at high-impact context-management actions." loading="lazy" />
+            </a>
           </article>
           <article class="training-card credit-card">
             <div class="training-card-copy"><span>02 · Fine-grained credit assignment</span><h3>Learn from downstream outcomes.</h3><p>Aggregate rewards back to trajectory snapshots, so intermediate context states receive a useful learning signal.</p></div>
-            <div class="credit-diagram" aria-label="Rewards flowing back to an earlier trajectory snapshot">
-              <div class="snapshot"><i></i><i class="selected"></i><i></i><i></i></div><div class="reward-lines"><span></span><span></span><span></span></div><div class="outcomes"><b>✓</b><b>×</b><b>×</b></div><small>reward aggregation</small>
-            </div>
+            <a class="method-figure" href="assets/fine-grained-credit-assignment.png" target="_blank" rel="noreferrer" aria-label="Open the fine-grained credit assignment diagram at full resolution">
+              <img src="assets/fine-grained-credit-assignment.png" alt="Fine-grained credit assignment aggregates downstream trajectory rewards back to intermediate snapshots." loading="lazy" />
+            </a>
           </article>
         </div>
         <a class="figure-link" href="https://raw.githubusercontent.com/pzs19/ContextPilot/main/assets/contextpilot_overview.png" target="_blank" rel="noreferrer"><span>Open the complete method overview</span><span aria-hidden="true">↗</span></a>
@@ -223,7 +223,7 @@ bash infer/scripts/run_full_pipeline.sh \
     </main>
 
     <footer>
-      <a class="brand footer-brand" href="#top"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 44 44"><path d="M7 22h30M22 7v30" /><circle cx="22" cy="22" r="7" /></svg></span><span>ContextPilot</span></a>
+      <a class="brand footer-brand" href="#top"><span class="brand-mark" aria-hidden="true"><img src="assets/contextpilot-pilot.png" alt="" /></span><span>ContextPilot</span></a>
       <p>Planning · retrieval · memory · soft context offloading</p><div><span>Apache-2.0</span><span>Built for long contexts</span></div>
     </footer>
     <script src="app.js"></script>

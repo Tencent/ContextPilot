@@ -50,13 +50,11 @@ a { color: inherit; text-decoration: none; }
   font-size: 17px; font-weight: 750; letter-spacing: -0.03em;
 }
 .brand-mark {
-  display: grid; width: 34px; height: 34px; place-items: center;
-  border-radius: 10px; background: var(--ink);
+  display: grid; width: 44px; height: 44px; place-items: center;
 }
-.brand-mark svg {
-  width: 25px; fill: none; stroke: var(--paper); stroke-linecap: round; stroke-width: 2.2;
+.brand-mark img {
+  display: block; width: 100%; height: 100%; object-fit: contain;
 }
-.brand-mark circle { fill: var(--coral); stroke: var(--ink); }
 nav { display: flex; gap: clamp(20px, 3vw, 42px); font-size: 13px; font-weight: 650; }
 nav a { position: relative; }
 nav a::after {
@@ -428,54 +426,16 @@ section[id] { scroll-margin-top: 76px; }
 }
 .training-card h3 { margin-top: 16px; font-size: 39px; }
 .training-card-copy p { max-width: 540px; color: var(--ink-soft); font-size: 14px; line-height: 1.7; }
-.branch-diagram, .credit-diagram { position: relative; height: 260px; margin-top: 55px; overflow: hidden; }
-.trunk, .branch, .snapshot {
-  position: absolute; display: flex; align-items: center; justify-content: space-around;
-  height: 2px; background: var(--ink);
+.method-figure {
+  display: block; margin-top: 38px; overflow: hidden;
+  border: 1px solid var(--line); border-radius: 14px; background: #fff;
+  transition: transform 180ms ease, box-shadow 180ms ease;
 }
-.trunk { top: 32px; right: 4%; left: 4%; }
-.trunk i, .branch i, .snapshot i {
-  width: 18px; height: 18px; border: 4px solid var(--white); border-radius: 50%;
-  background: var(--blue); box-shadow: 0 0 0 1px var(--blue);
+.method-figure:hover {
+  box-shadow: 0 16px 38px rgba(16, 32, 46, 0.12); transform: translateY(-3px);
 }
-.trunk i.impact, .snapshot i.selected {
-  width: 23px; height: 23px; background: var(--coral); box-shadow: 0 0 0 1px var(--coral);
-}
-.branch { right: 4%; left: 41%; background: var(--coral); }
-.branch::before {
-  position: absolute; right: 100%; width: 70px; height: 2px;
-  background: var(--coral); content: ""; transform-origin: right;
-}
-.branch-a { top: 105px; }
-.branch-b { top: 170px; }
-.branch-c { top: 235px; }
-.branch-a::before { transform: rotate(-36deg); }
-.branch-b::before { transform: rotate(0); }
-.branch-c::before { transform: rotate(36deg); }
-.branch-diagram > span {
-  position: absolute; top: 58px; left: 27%; color: var(--coral);
-  font: 9px Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-}
-.snapshot { top: 106px; left: 0; width: 48%; }
-.reward-lines { position: absolute; top: 39px; right: 14%; bottom: 39px; left: 47%; }
-.reward-lines span {
-  position: absolute; top: 50%; left: 0; width: 100%; height: 1px;
-  background: var(--green); transform-origin: left;
-}
-.reward-lines span:first-child { transform: rotate(-23deg); }
-.reward-lines span:last-child { transform: rotate(23deg); }
-.outcomes {
-  position: absolute; top: 25px; right: 5%; bottom: 25px;
-  display: flex; flex-direction: column; justify-content: space-between;
-}
-.outcomes b {
-  display: grid; width: 28px; height: 28px; place-items: center;
-  border-radius: 50%; color: var(--white); background: var(--coral);
-}
-.outcomes b:first-child { background: var(--green); }
-.credit-diagram small {
-  position: absolute; right: 22%; bottom: 3px; color: var(--green);
-  font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+.method-figure img {
+  display: block; width: 100%; height: auto;
 }
 .figure-link {
   display: flex; align-items: center; justify-content: space-between;
@@ -588,7 +548,7 @@ footer > div { display: flex; justify-content: flex-end; gap: 18px; }
 @media (max-width: 660px) {
   .site-header { height: 66px; padding: 0 18px; }
   .brand { font-size: 15px; }
-  .brand-mark { width: 30px; height: 30px; }
+  .brand-mark { width: 38px; height: 38px; }
   .button-small { min-height: 34px; padding: 0 13px; }
   .hero { min-height: auto; padding: 66px 20px 80px; }
   h1 { font-size: clamp(54px, 16vw, 76px); }
@@ -625,7 +585,7 @@ footer > div { display: flex; justify-content: flex-end; gap: 18px; }
   .inspector-block { padding: 22px; }
   .trace-message { grid-template-columns: 8px 1fr; }
   .trace-message > span { display: none; }
-  .training-card { min-height: 530px; }
+  .training-card { min-height: auto; }
   .evaluation-panel { padding: 45px 22px; border-radius: 22px; }
   .quickstart-card pre { padding: 22px 18px; font-size: 10px; }
   .code-footer { align-items: flex-start; flex-direction: column; }
