@@ -115,6 +115,15 @@ h1 em { color: var(--coral); font-weight: inherit; }
   font-size: clamp(17px, 1.35vw, 21px); line-height: 1.65;
 }
 .hero-actions, .closing-actions { display: flex; align-items: center; gap: 26px; }
+.hero-actions { flex-wrap: wrap; row-gap: 17px; }
+.hero-resource-links { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 22px; }
+.resource-link {
+  display: inline-flex; align-items: center; gap: 8px; padding: 8px 1px;
+  border-bottom: 1px solid currentColor; font-size: 14px; font-weight: 700; white-space: nowrap;
+}
+.resource-icon { width: 18px; height: 18px; flex: 0 0 18px; }
+.hf-icon { font-size: 17px; line-height: 18px; }
+.github-icon { fill: currentColor; }
 .hero-proof {
   display: flex; flex-wrap: wrap; gap: 24px; margin: 50px 0 0; padding: 0;
   color: var(--muted); font-size: 11px; font-weight: 750;
