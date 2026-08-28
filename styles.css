@@ -412,14 +412,18 @@ section[id] { scroll-margin-top: 76px; }
 .next-button { border-color: var(--coral); color: var(--ink); background: var(--coral); }
 
 .training-section { padding-bottom: 70px; }
+.training-section > * {
+  width: min(100%, 1712px); margin-right: auto; margin-left: auto;
+}
 .training-visuals {
   display: grid; grid-template-columns: 1fr 1fr;
   border-top: 1px solid var(--line); border-left: 1px solid var(--line);
 }
 .training-card {
-  min-height: 570px; padding: clamp(28px, 4vw, 55px);
+  display: flex; min-height: 570px; padding: clamp(28px, 2.5vw, 44px); flex-direction: column;
   border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--white);
 }
+.training-card-copy { margin-bottom: 38px; }
 .training-card-copy > span {
   color: var(--muted); font: 9px Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   letter-spacing: 0.1em; text-transform: uppercase;
@@ -427,7 +431,7 @@ section[id] { scroll-margin-top: 76px; }
 .training-card h3 { margin-top: 16px; font-size: 39px; }
 .training-card-copy p { max-width: 540px; color: var(--ink-soft); font-size: 14px; line-height: 1.7; }
 .method-figure {
-  display: block; margin-top: 38px; overflow: hidden;
+  display: block; width: min(100%, 600px); margin: auto auto 0; overflow: hidden;
   border: 1px solid var(--line); border-radius: 14px; background: #fff;
   transition: transform 180ms ease, box-shadow 180ms ease;
 }
