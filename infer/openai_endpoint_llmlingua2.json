@@ -1,0 +1,5 @@
+{
+  "OPENAI_BASE_URL": "http://localhost:9999/v1",
+  "OPENAI_API_KEY":  "EMPTY",
+  "MODEL_ID": "LLMLingua-2"
+}

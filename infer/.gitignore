@@ -1,0 +1,16 @@
+.env
+.runtime/
+.venv/
+backup/
+results/
+data/*
+!data/LongMemEval/
+data/LongMemEval/*
+!data/LongMemEval/longmemeval_s_cleaned.json
+!data/BrowseCompPlus/
+data/BrowseCompPlus/*
+!data/BrowseCompPlus/README.md
+!data/BrowseCompPlus/data/
+data/BrowseCompPlus/data/*
+!data/BrowseCompPlus/data/*.parquet
+__pycache__/

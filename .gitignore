@@ -1,0 +1,12 @@
+backup/
+.key
+.env
+.env.*
+!.env.example
+/train/sh/*.local.sh
+/infer/configs/*.local.json
+/infer/data/NovelQA/
+related_work/
+train_new/
+paper/
+artifacts/

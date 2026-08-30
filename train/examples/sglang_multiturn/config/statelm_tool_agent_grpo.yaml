@@ -1,0 +1,23 @@
+hydra:
+  searchpath:
+    - file://verl/trainer/config
+
+defaults:
+  - ppo_trainer
+  - _self_
+
+data:
+  max_prompt_length: 32000
+  max_response_length: 1024
+  train_batch_size: 1
+  return_raw_chat: True
+  apply_chat_template_kwargs:
+    enable_thinking: false
+
+actor_rollout_ref:
+  hybrid_engine: True
+  rollout:
+    name: vllm
+    multi_turn:
+      enable: True
+      max_assistant_turns: 20

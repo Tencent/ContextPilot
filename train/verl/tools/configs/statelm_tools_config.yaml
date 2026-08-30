@@ -1,0 +1,218 @@
+# StateLM Tools Configuration
+# This configuration file defines all the tools available for StateLM agent workflows
+
+tools:
+  - class_name: verl.tools.statelm_tools.AnalyzeTextTool
+    config:
+      type: native
+    tool_schema:
+      type: function
+      function:
+        name: analyzeText
+        description: Analyze the length of the attached context.
+        parameters:
+          type: object
+          properties: {}
+  
+  - class_name: verl.tools.statelm_tools.LoadDocumentTool
+    config:
+      type: native
+    tool_schema:
+      type: function
+      function:
+        name: loadDocument
+        description: Load the full document.
+        parameters:
+          type: object
+          properties: {}
+  
+  - class_name: verl.tools.statelm_tools.BuildIndexTool
+    config:
+      type: native
+    tool_schema:
+      type: function
+      function:
+        name: buildIndex
+        description: Split the document into fixed-size chunks and build a searchable index.
+        parameters:
+          type: object
+          properties:
+            chunk_size:
+              type: integer
+              description: Chunk size in tokens. Default 4000.
+            overlap:
+              type: integer
+              description: Number of overlapping tokens between adjacent chunks. Default 0.
+  
+  - class_name: verl.tools.statelm_tools.CheckBudgetTool
+    config:
+      type: native
+    tool_schema:
+      type: function
+      function:
+        name: checkBudget
+        description: Check the remaining context budget.
+        parameters:
+          type: object
+          properties: {}
+  
+  - class_name: verl.tools.statelm_tools.ReadChunkTool
+    config:
+      type: native
+    tool_schema:
+      type: function
+      function:
+        name: readChunk
+        description: Retrieve the full text of a chunk by its 'chunk_id'.
+        parameters:
+          type: object
+          properties:
+            chunk_id:
+              type: integer
+              description: ID of the target chunk.
+          required:
+            - chunk_id
+  
+  - class_name: verl.tools.statelm_tools.SearchEngineTool
+    config:
+      type: native
+    tool_schema:
+      type: function
+      function:
+        name: searchEngine
+        description: Search the document by keywords and return the information of relevant chunks.
+        parameters:
+          type: object
+          properties:
+            keyword:
+              type: string
+              description: Keyword(s) separated with comma.
+          required:
+            - keyword
+  
+  - class_name: verl.tools.statelm_tools.NoteTool
+    config:
+      type: native
+    tool_schema:
+      type: function
+      function:
+        name: note
+        description: Record key information in a note.
+        parameters:
+          type: object
+          properties:
+            key:
+              type: string
+              description: Unique identifier for the note.
+            summary:
+              type: string
+              description: Short summary of the note.
+            content:
+              type: object
+              description: Full note content.
+          required:
+            - key
+            - summary
+            - content
+  
+  - class_name: verl.tools.statelm_tools.ReadNoteTool
+    config:
+      type: native
+    tool_schema:
+      type: function
+      function:
+        name: readNote
+        description: Read one existing simple note. The key MUST exactly match a key listed
+          under <external_note> / Available Notes in the current prompt. If Available Notes
+          says "No notes recorded.", do not call this tool.
+        parameters:
+          type: object
+          properties:
+            key:
+              type: string
+              description: Existing note key copied exactly from Available Notes; never invent
+                a new key.
+          required:
+            - key
+  
+  - class_name: verl.tools.statelm_tools.UpdateNoteTool
+    config:
+      type: native
+    tool_schema:
+      type: function
+      function:
+        name: updateNote
+        description: Overwrite/Append/Delete an existing note.
+        parameters:
+          type: object
+          properties:
+            mode:
+              type: string
+              description: "'append', 'overwrite', or 'delete'."
+            key:
+              type: string
+              description: Key of the target note to update.
+            new_content:
+              type: object
+              description: New content for update. Leave empty for deletion mode.
+            new_summary:
+              type: string
+              description: New summary for update.
+          required:
+            - key
+            - mode
+            - new_content
+  
+  - class_name: verl.tools.statelm_tools.MergeNotesTool
+    config:
+      type: native
+    tool_schema:
+      type: function
+      function:
+        name: mergeNotes
+        description: Merge multiple notes into one.
+        parameters:
+          type: object
+          properties:
+            keys:
+              type: array
+              items:
+                type: string
+              description: List of note keys to merge.
+            new_key:
+              type: string
+              description: Key for the new merged note.
+            new_summary:
+              type: string
+              description: Summary for the new merged note.
+          required:
+            - keys
+  
+  - class_name: verl.tools.statelm_tools.GetContextStatsTool
+    config:
+      type: native
+    tool_schema:
+      type: function
+      function:
+        name: getContextStats
+        description: Get full statistics about the current working context and stored notes.
+        parameters:
+          type: object
+          properties: {}
+  
+  - class_name: verl.tools.statelm_tools.FinishTool
+    config:
+      type: native
+    tool_schema:
+      type: function
+      function:
+        name: finish
+        description: Submit the final answer.
+        parameters:
+          type: object
+          properties:
+            answer:
+              type: string
+              description: Final answer in short form.
+          required:
+            - answer

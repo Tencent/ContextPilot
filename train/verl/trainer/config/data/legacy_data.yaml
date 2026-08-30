@@ -1,0 +1,44 @@
+tokenizer: null
+
+use_shm: false
+
+train_files: ~/data/rlhf/gsm8k/train.parquet
+val_files: ~/data/rlhf/gsm8k/test.parquet
+
+prompt_key: prompt
+reward_fn_key: data_source
+
+max_prompt_length: 512
+max_response_length: 512
+
+train_batch_size: 1024
+val_batch_size: null
+return_raw_input_ids: false
+return_raw_chat: false
+return_full_prompt: false
+shuffle: true
+dataloader_num_workers: 8
+validation_shuffle: false
+
+filter_overlong_prompts: false
+filter_overlong_prompts_workers: 1
+truncation: error
+
+image_key: images
+video_key: videos
+trust_remote_code: false
+return_multi_modal_inputs: true
+
+custom_cls:
+  path: null
+  name: null
+
+sampler:
+  class_path: null
+  class_name: null
+
+datagen:
+  path: null
+  name: null
+
+apply_chat_template_kwargs: {}

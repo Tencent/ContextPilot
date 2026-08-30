@@ -1,0 +1,11 @@
+{
+  "OPENAI_BASE_URL": "http://localhost:8080/v1",
+  "OPENAI_API_KEY": "EMPTY",
+  "MODEL_ID": "ContextPilot",
+  "OPENAI_EXTRA_BODY": {
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "min_p": 0
+  }
+}

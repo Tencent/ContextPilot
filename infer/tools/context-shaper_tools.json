@@ -1,0 +1,484 @@
+[
+  {
+    "type": "function",
+    "function": {
+      "name": "plan",
+      "description": "Reflect on the conversation so far and record a concise plan for the next steps. Write your plan directly into the `strategy` parameter. Do NOT attempt to answer the user's question here — only reflect on what progress has been made, what is still missing, and what you will do next.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "strategy": {
+            "type": "string",
+            "description": "Your reflection and next-step plan, written in natural language. Summarize what progress has been made toward answering the user's question, identify what is still missing, and describe the concrete next actions you will take. Do NOT answer the user's question here."
+          }
+        },
+        "required": [
+          "strategy"
+        ]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "analyzeText",
+      "description": "Analyze the length of the attached context.",
+      "parameters": {
+        "type": "object",
+        "properties": {}
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "buildIndex",
+      "description": "Split the document into fixed-size chunks and build a searchable index.",
+      "parameters": {
+        "type": "object",
+        "properties": {}
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "checkBudget",
+      "description": "Check the remaining context budget.",
+      "parameters": {
+        "type": "object",
+        "properties": {}
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "readChunk",
+      "description": "Retrieve the full text of a document chunk. The chunk can be specified explicitly by chunk_id, or retrieved sequentially using scan mode.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "chunk_id": {
+            "type": "integer",
+            "description": "ID of the chunk to retrieve. Required when enable_scan is false. Ignored when enable_scan is true."
+          },
+          "enable_scan": {
+            "type": "boolean",
+            "description": "If true, enables sequential scan mode. The function returns the next chunk after the most recently retrieved chunk in the current conversation. Scan mode persists across subsequent calls unless disabled. Default is false."
+          }
+        }
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "readMultiChunks",
+      "description": "Retrieve the full text of multiple document chunks in a single call. Note: This function supports a maximum of 3 chunk IDs per request.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "chunk_ids": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "description": "A list of chunk IDs to retrieve. Only the first 3 chunk IDs provided will be processed; any additional IDs will be ignored."
+          }
+        },
+        "required": [
+          "chunk_ids"
+        ]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "searchEngine",
+      "description": "Search the document by keywords and return the information of relevant chunks.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "keyword": {
+            "type": "string",
+            "description": "Keyword(s) separated with comma."
+          }
+        },
+        "required": [
+          "keyword"
+        ]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "memorize",
+      "strict": true,
+      "description": "Record key information as structured memory. Always provide key, summary, content, entities, episodes, relations, and source. Write entities and episodes as concise structured text strings to reduce schema failures. Keep relations and source as structured JSON because they are used for graph connections.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Unique identifier for the memory."
+          },
+          "summary": {
+            "type": "string",
+            "description": "Short dense summary of the memory."
+          },
+          "content": {
+            "type": "string",
+            "description": "Full memory content or normalized facts remembered from the read text."
+          },
+          "entities": {
+            "type": "string",
+            "description": "Concise structured text listing important entities. Include names, types, aliases if useful, and evidence. Use an empty string if unsure."
+          },
+          "episodes": {
+            "type": "string",
+            "description": "Concise structured text listing events or episodic facts. Include title, summary, timestamp/normalized_time if known, location, participants, event type, and facets. Use an empty string if unsure."
+          },
+          "relations": {
+            "type": "array",
+            "description": "Meaningful connections between entities or episodes. Optional; use an empty array if unsure.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "source": {"type": "string"},
+                "target": {"type": "string"},
+                "relation": {"type": "string"},
+                "description": {"type": "string"},
+                "evidence": {"type": "string"}
+              },
+              "required": ["source", "target", "relation", "description", "evidence"],
+              "additionalProperties": false
+            }
+          },
+          "source": {
+            "type": "object",
+            "description": "Optional provenance for this memory.",
+            "properties": {
+              "chunk_ids": {"type": "array", "items": {"type": "integer"}},
+              "msg_ids": {"type": "array", "items": {"type": "integer"}}
+            },
+            "required": ["chunk_ids", "msg_ids"],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "key",
+          "summary",
+          "content",
+          "entities",
+          "episodes",
+          "relations",
+          "source"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "loadMemory",
+      "description": "Read one existing structured memory entry and directly related memories. The key MUST exactly match a key listed under <external_memory> / Available Memories in the current prompt. If Available Memories says \"No memories recorded.\", do not call this tool.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Existing memory key copied exactly from Available Memories; never invent a new key."
+          },
+          "max_related": {
+            "type": "integer",
+            "description": "Maximum number of directly related memories to return. Default is 5."
+          }
+        },
+        "required": [
+          "key"
+        ]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "updateMemory",
+      "strict": true,
+      "description": "Overwrite/Append/Delete an existing structured memory entry. Always provide all top-level fields. For append/overwrite, write new_entities and new_episodes as concise structured text strings. Keep new_relations and new_source as structured JSON. For delete mode, use empty strings, empty arrays, and empty source arrays.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "description": "'append', 'overwrite', or 'delete'."
+          },
+          "key": {
+            "type": "string",
+            "description": "Key of the target memory entry to update."
+          },
+          "new_content": {
+            "type": "string",
+            "description": "New content for update. Use an empty string for deletion mode."
+          },
+          "new_summary": {
+            "type": "string",
+            "description": "New summary for update. Use an empty string for deletion mode."
+          },
+          "new_entities": {
+            "type": "string",
+            "description": "Concise structured text for new entities to merge into the memory. Use an empty string if unsure or for delete mode."
+          },
+          "new_episodes": {
+            "type": "string",
+            "description": "Concise structured text for new episodes to merge into the memory. Include timestamps inside this text if known. Use an empty string if unsure or for delete mode."
+          },
+          "new_relations": {
+            "type": "array",
+            "description": "New relations to merge into the memory. Use an empty array if unsure.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "source": {"type": "string"},
+                "target": {"type": "string"},
+                "relation": {"type": "string"},
+                "description": {"type": "string"},
+                "evidence": {"type": "string"}
+              },
+              "required": ["source", "target", "relation", "description", "evidence"],
+              "additionalProperties": false
+            }
+          },
+          "new_source": {
+            "type": "object",
+            "description": "Optional provenance for the update.",
+            "properties": {
+              "chunk_ids": {"type": "array", "items": {"type": "integer"}},
+              "msg_ids": {"type": "array", "items": {"type": "integer"}}
+            },
+            "required": ["chunk_ids", "msg_ids"],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "key",
+          "mode",
+          "new_content",
+          "new_summary",
+          "new_entities",
+          "new_episodes",
+          "new_relations",
+          "new_source"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "note",
+      "strict": true,
+      "description": "Record key information in a simple note. This is a lightweight alternative to memorize: only provide a summary and full content, without structured entities, episodes, or relations.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Unique identifier for the note."
+          },
+          "summary": {
+            "type": "string",
+            "description": "Short summary of the note."
+          },
+          "content": {
+            "type": "string",
+            "description": "Full note content."
+          }
+        },
+        "required": [
+          "key",
+          "summary",
+          "content"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "readNote",
+      "description": "Read one existing simple note. The key MUST exactly match a key listed under <external_note> / Available Notes in the current prompt. If Available Notes says \"No notes recorded.\", do not call this tool.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "description": "Existing note key copied exactly from Available Notes; never invent a new key."
+          }
+        },
+        "required": [
+          "key"
+        ]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "updateNote",
+      "strict": true,
+      "description": "Overwrite/Append/Delete an existing simple note.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "description": "'append', 'overwrite', or 'delete'."
+          },
+          "key": {
+            "type": "string",
+            "description": "Key of the target note to update."
+          },
+          "new_content": {
+            "type": "string",
+            "description": "New content for update. Use an empty string for deletion mode."
+          },
+          "new_summary": {
+            "type": "string",
+            "description": "New summary for update. Use an empty string for deletion mode."
+          }
+        },
+        "required": [
+          "key",
+          "mode",
+          "new_content",
+          "new_summary"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "deleteContext",
+"description": "Delete a message by its message ID to save tokens. Do NOT delete a message that has already been processed by truncateContext or summarizeContext. Best used for deleting the assistant message that invoked memorize/updateMemory/note/updateNote (use its msg_id(invoking_assistant)).",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "msg_id": {
+            "type": "integer",
+            "description": "Unique ID of the message to prune."
+          }
+        },
+        "required": [
+          "msg_id"
+        ]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "truncateContext",
+      "description": "Truncate the 'message' of the tool response content of a readChunk call to keep only the text between start_sentence and stop_sentence (inclusive). Can also be used to truncate the content of a searchEngine or semanticSearch tool response. Finds the first occurrence of start_sentence, then the first occurrence of stop_sentence after it, and replaces with only that extracted span.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "msg_id": {
+            "type": "integer",
+            "description": "Unique ID of the message to truncate."
+          },
+          "start_sentence": {
+            "type": "string",
+            "description": "The sentence/phrase marking the start of the content to keep."
+          },
+          "stop_sentence": {
+            "type": "string",
+            "description": "The sentence/phrase marking the end of the content to keep (must appear after start_sentence)."
+          }
+        },
+        "required": [
+          "msg_id",
+          "start_sentence",
+          "stop_sentence"
+        ]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "summarizeContext",
+      "description": "Replace the 'message' of the tool response content of a readChunk call with a provided summary. Can also be used to summarize the content of a searchEngine or semanticSearch tool response. Use this to compress a long tool result into a shorter form while preserving key information, before deleting it.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "msg_id": {
+            "type": "integer",
+            "description": "Unique ID of the message to summarize."
+          },
+          "summary": {
+            "type": "string",
+            "description": "The summary text to replace the original content."
+          }
+        },
+        "required": [
+          "msg_id",
+          "summary"
+        ]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "compressContext",
+      "description": "Compress an assistant or tool message by msg_id using the LLMLingua-2 endpoint. If the endpoint request fails, the tool falls back to randomly sampling whitespace-delimited words according to the requested compression rate.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "msg_id": {
+            "type": "integer",
+            "description": "Unique ID of the message to compress."
+          },
+          "compression_rate": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100,
+            "default": 10,
+            "description": "Percentage of whitespace-delimited words to keep, from 0 to 100. Default is 10."
+          }
+        },
+        "required": [
+          "msg_id"
+        ]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "finish",
+      "description": "Submit the final answer.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "answer": {
+            "type": "string",
+            "description": "Final answer in short form."
+          }
+        },
+        "required": [
+          "answer"
+        ]
+      }
+    }
+  }
+]

@@ -1,0 +1,7 @@
+{
+  "OPENAI_BASE_URL": "https://your-judge-endpoint.example/v1",
+  "OPENAI_API_KEY_ENV": "OPENAI_API_KEY",
+  "MODEL_ID": "your-judge-model",
+  "OPENAI_MAX_TOKENS_FIELD": "max_completion_tokens",
+  "OPENAI_SEND_TEMPERATURE": false
+}
